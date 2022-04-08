@@ -4,8 +4,8 @@ import scala.collection.mutable.ArrayBuffer
 
 trait CSVParser {
 
-  def parse(filename: String, className: String): List[(String, String)] = {
-    def clearMessage(str: String): String = str.replaceAll("\\P{L}", " ")
+  protected def parse(filename: String, className: String): List[(String, String)] = {
+    def clearMessage(str: String): String = str.replaceAll("\\P{L}", " ").strip()
 
     val bufferedSource = io.Source.fromFile(filename)
     val res = bufferedSource.getLines()
