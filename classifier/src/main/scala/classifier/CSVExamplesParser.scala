@@ -2,10 +2,11 @@ package classifier
 
 import scala.collection.mutable.ArrayBuffer
 
-trait CSVParser {
+trait CSVExamplesParser {
 
   protected def parse(filename: String, className: String): List[(String, String)] = {
-    def clearMessage(str: String): String = str.replaceAll("\\P{L}", " ").strip()
+    def clearMessage(str: String): String = str.replaceAll("\\P{L}|[A-Z]|[a-z]", " ")
+      .replaceAll("\\s+", " ").strip()
 
     val bufferedSource = io.Source.fromFile(filename)
     val res = bufferedSource.getLines()

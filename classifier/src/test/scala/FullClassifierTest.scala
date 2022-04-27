@@ -1,25 +1,35 @@
 import classifier.NaiveBayesLearningAlgorithm
+import org.specs2.matcher.MatchResult
 import org.specs2.mutable._
 
 
-
 class FullClassifierTest extends Specification {
+
+  val c = new NaiveBayesLearningAlgorithm()
+  c.loadAllExamples()
+
   "Classifier" should {
-    val c = new NaiveBayesLearningAlgorithm()
-    c.loadAllExamples()
+
+    def testTextClass(testText: String, expectedClass: String): MatchResult[String] = {
+      val result = c.classifier.classify(testText)
+      println(result.probability, result.highlightedText)
+      result.kind must beEqualTo(expectedClass)
+    }
 
     "workOnNegativeText" in {
-      val testText = "надо купить сигареты"
-      val bestClass = c.classifier.classify(testText)
-      bestClass must beEqualTo("Negative")
+      testTextClass("смерть беда сигареты убивают", "Negative")
       // Текст можно задавать в переменную testText
     }
 
     "workOnPositiveText" in {
-      val testText = "Цветы удача радость конфеты"
-      val bestClass = c.classifier.classify(testText)
-      bestClass must beEqualTo("Positive")
+      testTextClass("Цветы удача радость конфеты", "Positive")
       // Текст можно задавать в переменную testText
     }
+
+    "workOnNeutralText" in {
+      testTextClass("надо купить сигареты", "Neutral")
+      // Текст можно задавать в переменную testText
+    }
+
   }
 }

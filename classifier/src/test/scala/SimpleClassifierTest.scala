@@ -10,8 +10,8 @@ class SimpleClassifierTest extends Specification {
       c.addExample("предоставляю услуги бухгалтера", "SPAM")
       c.addExample("спешите купить виагру", "SPAM")
       c.addExample("надо купить молоко", "HAM")
-      val bestClass = c.classifier.classify("надо купить сигареты")
-      bestClass must beEqualTo("HAM")
+      val bestClass = c.classifier.classify("надо купить сигареты").kind
+      bestClass must beEqualTo("Neutral")
     }
   }
 }
