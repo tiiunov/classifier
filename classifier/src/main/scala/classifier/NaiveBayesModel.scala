@@ -27,6 +27,9 @@ class NaiveBayesModel(lengths: Map[String, Int],
    */
   def classes: Set[String] = docCount.keySet
 
+  def calculateClassProbability(searchedClass: Double, other: Double): Double =
+    1 / (1+ exp(other-searchedClass))
+
   def calculateClassProbability(clLog: List[Double]): List[Double] =
     1 / (1+ exp(clLog.last - clLog.head)) :: 1 / (1+ exp(clLog.head - clLog.last)) :: Nil
 }
