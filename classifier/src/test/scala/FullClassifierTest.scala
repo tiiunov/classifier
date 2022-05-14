@@ -1,17 +1,17 @@
-import classifier.NaiveBayesLearningAlgorithm
+import classifier.{NaiveBayesClassifier, NaiveBayesLearningAlgorithm}
 import org.specs2.matcher.MatchResult
 import org.specs2.mutable._
 
 
 class FullClassifierTest extends Specification {
 
-  val c = new NaiveBayesLearningAlgorithm()
-  c.loadAllExamples()
-
+  val learningModel = new NaiveBayesLearningAlgorithm()
+  learningModel.loadAllExamples()
+  val c: NaiveBayesClassifier = learningModel.classifier
   "Classifier" should {
 
     def testTextClass(testText: String, expectedClass: String): MatchResult[String] = {
-      val result = c.classifier.classify(testText)
+      val result = c.classify(testText)
       println(result.probability, result.highlightedText)
       result.kind must beEqualTo(expectedClass)
     }
