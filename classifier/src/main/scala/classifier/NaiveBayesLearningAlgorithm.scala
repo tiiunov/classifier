@@ -4,10 +4,6 @@ import scala.collection.mutable.ListBuffer
 
 class NaiveBayesLearningAlgorithm extends CSVExamplesParser with ExcellentWordParser {
 
-  val PositiveFilePath = "positive.csv"
-  val NegativeFilePath = "negative.csv"
-
-  //private val tokenize = (v: String) => v.split(' ').filter(_ != "")
   private val tokenize = (v: String) => parseTextToWords(v).map(_.word)
   private val tokenizeTuple = (v: (String, String)) => tokenize(v._1)
   private val calculateWords = (l: List[(String, String)]) => l.map(tokenizeTuple(_).length).sum

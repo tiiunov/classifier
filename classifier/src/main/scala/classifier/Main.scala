@@ -1,16 +1,35 @@
 package classifier
-import akka.http.scaladsl.marshalling.{Marshaller, ToEntityMarshaller}
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
-import play.twirl.api.{Html, HtmlFormat}
-import views.html.form
+import akka.actor.{ActorSystem, Props}
 
-class Main extends App {
+import scala.util.{Failure, Success}
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.server.Route
 
-  implicit val twirlMarshaller: ToEntityMarshaller[Html] =
-    Marshaller.withFixedContentType(ContentTypes.`text/html(UTF-8)`) { html =>
-      HttpEntity(ContentTypes.`text/html(UTF-8)`, html.body)
+import scala.io.StdIn
+
+
+object Main extends App {
+  implicit val system: ActorSystem = ActorSystem("classifier_system")
+  import system.dispatcher
+
+  val userActor = system.actorOf(Props[UserActor])
+  val userService = new UserService(userActor)
+  val microAPI = new microRestAPI(userService)
+  val route : Route = microAPI.routes
+  val localhost = "127.0.0.1"
+  Http().newServerAt("127.0.0.1", 8080).bind(route)
+    .map(_ => println(s"Server bound to $localhost"))
+    .onComplete {
+      case Failure(exception) =>
+        println(s"Unexpected error while binding server: ${exception.getMessage}")
+        system.terminate()
+      case Success(_) => ()
     }
 
-  //def classifyText()
-  val content: HtmlFormat.Appendable = form(None, None, None)
+  StdIn.readLine("Press ENTER to stop\n")
+  system.terminate()
+
+
+
+
 }

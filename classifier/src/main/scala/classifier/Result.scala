@@ -1,3 +1,3 @@
 package classifier
 
-case class Result(kind: String, probability: Double, highlightedText: String )
+case class Result(category: String, probability: Double, highlightedText: String )

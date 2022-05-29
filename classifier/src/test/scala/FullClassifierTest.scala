@@ -13,7 +13,7 @@ class FullClassifierTest extends Specification {
     def testTextClass(testText: String, expectedClass: String): MatchResult[String] = {
       val result = c.classify(testText)
       println(result.probability, result.highlightedText)
-      result.kind must beEqualTo(expectedClass)
+      result.category must beEqualTo(expectedClass)
     }
 
     "workOnNegativeText" in {

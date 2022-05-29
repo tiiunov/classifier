@@ -1,8 +1,9 @@
 @(text: Option[String], category: Option[String],
 debug: Option[String])
-
+<head>
+    <link rel="stylesheet" href="webjars/bootstrap.min.css" />
+</head>
 <h1>Классификатор</h1>
-
 <form action="/classify" method="POST">
     <textarea name="text">@text</textarea>
     <button type="submit">Классифицировать</button>
@@ -11,5 +12,5 @@ debug: Option[String])
 @if(category.nonEmpty) {
 <p>Результат: @category</p>
 
-<p>@debug</p>
+<p>@Html(debug)</p>
 }

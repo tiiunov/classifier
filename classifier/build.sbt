@@ -13,4 +13,9 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http"            %  "10.2.9",
   "com.typesafe.akka" %% "akka-http-spray-json" %  "10.2.9"
 )
+
+libraryDependencies ++= Seq(
+  "org.webjars.npm" % "bootstrap" % "5.1.3",
+  "org.mdedetrich" %% "akka-http-webjars" % "0.5.0")
+
 lazy val root = (project in file(".")).enablePlugins(SbtTwirl)
