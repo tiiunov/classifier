@@ -12,12 +12,12 @@ object Main extends App {
   implicit val system: ActorSystem = ActorSystem("classifier_system")
   import system.dispatcher
 
-  val userActor = system.actorOf(Props[UserActor])
-  val userService = new UserService(userActor)
-  val microAPI = new microRestAPI(userService)
+  val userActor = system.actorOf(Props[ClassifierActor])
+  val classifierService = new ClassifierService(userActor)
+  val microAPI = new microRestAPI(classifierService)
   val route : Route = microAPI.routes
   val localhost = "127.0.0.1"
-  Http().newServerAt("127.0.0.1", 8080).bind(route)
+  Http().newServerAt(localhost, 8080).bind(route)
     .map(_ => println(s"Server bound to $localhost"))
     .onComplete {
       case Failure(exception) =>

@@ -11,7 +11,7 @@ import org.mdedetrich.akka.http.WebJarsSupport._
 
 import scala.concurrent.ExecutionContext
 
-class microRestAPI(userService: UserService)(implicit ec: ExecutionContext) {
+class microRestAPI(classifierService: ClassifierService)(implicit ec: ExecutionContext) {
 
   private def webJarAssets: Route =
     pathPrefix("webjars") {
@@ -36,7 +36,7 @@ class microRestAPI(userService: UserService)(implicit ec: ExecutionContext) {
             extractRequestContext { _ =>
               formField("text") {
                 case field if field.isEmpty => complete(form(Some("Введите сюда ваш текст"), None, None))
-                case text => val result = userService.classifyText(text)
+                case text => val result = classifierService.classifyText(text)
                   onSuccess(result) { result =>
                     complete(form(Some(text), Some(result.category), Some(result.highlightedText)))
                   }

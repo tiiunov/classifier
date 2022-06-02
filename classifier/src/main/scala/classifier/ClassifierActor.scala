@@ -1,9 +1,9 @@
 package classifier
 
 import akka.actor.Actor
-import classifier.UserActor.ClassifyText
+import classifier.ClassifierActor.ClassifyText
 
-class UserActor extends Actor {
+class ClassifierActor extends Actor {
 
   val learningModel = new NaiveBayesLearningAlgorithm()
   learningModel.loadAllExamples()
@@ -18,7 +18,7 @@ class UserActor extends Actor {
   }
 }
 
-object UserActor {
+object ClassifierActor {
 
   case class ClassifyText(text: String)
 
